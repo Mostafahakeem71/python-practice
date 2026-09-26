@@ -36,13 +36,32 @@ def delete_contact():
     else:
         print(f"Contact '{name}' not found.")
 
-            
+
+def save_contacts():
+    with open("contacts.txt", "w") as file:
+        for name, phone in contacts.items():
+            file.write(f"{name},{phone}\n")
+    print("Contacts saved to file.")
+
+def load_contacts():
+    try:
+        with open("contacts.txt", "r") as file:
+            for line in file:
+                name, phone = line.strip().split(",")
+                contacts[name] = phone
+        print("Contacts loaded from file.")
+    except FileNotFoundError:
+        print("No saved contacts found. Starting fresh.")
+        
+contacts = {}
+load_contacts()  # حمّل البيانات من الملف لو موجود     
 
 while True:
     show_menu()
     choice = input("Choose option: ")
     
     if choice == "5":
+        save_contacts()
         print("Goodbye!")
         break
     elif choice == "1":
